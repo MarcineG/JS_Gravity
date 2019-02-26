@@ -1,0 +1,15 @@
+html {
+    overflow: hidden;
+}
+
+body {
+    background-color: black;
+    margin: 0;
+
+
+}
+canvas {
+    background-color: dimgrey;
+
+}
+
