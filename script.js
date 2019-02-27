@@ -4,31 +4,47 @@ canvas.height = innerHeight;
 let c = canvas.getContext('2d');
 
 let colors = [
+    // "#367300",
     "#DB2B30",
     "#8F1D2C",
     "#5A142A",
     "#400D2A",
     "#140A25"
 ];
-let amount = 100;
+let amount = 400;
 let gravity = 1;
-let friction = 0.9;
 
 
 function Ball() {
-    this.x = Math.floor((Math.random() * innerWidth-50)+50);
-    this.y = Math.floor(Math.random() * (innerHeight/2));
+    this.rad = Math.floor((Math.random() * 30)+10);
+    this.x = Math.floor((Math.random() * innerWidth/4)+innerWidth/3);
+    this.y = Math.floor(Math.random() * (innerHeight/3));
+
     this.dy = 1;
-    this.rad = Math.floor((Math.random() * 20)+10);
+    this.dx = (Math.random()*4)-2;
     this.color = colors[Math.floor(Math.random() * 5)];
+    this.friction =  Math.random()*0.1+0.89;    //1 - Math.floor(Math.random()*0.01);
 
     this.update = function() {
-        if(this.y + this.rad > canvas.height && this.dy > 0) {
-            this.dy = -this.dy * friction ;
+        // if(Math.abs(this.dy) < 0.000000001) {
+        //     this.dy = 0;
+        //     this.y = canvas.height - this.rad;
+        // }
+        // else
+            if(this.y + this.rad >= canvas.height && this.dy > 0) {
+                this.y = canvas.height - this.rad;
+            this.dy = -Math.abs(this.dy * this.friction);
+            this.dx = this.dx * this.friction;
         }
         else {
             this.dy += gravity;
         }
+
+        if(this.x + this.rad > canvas.width || this.x - this.rad < 0) {
+            this.dx = -this.dx;
+        }
+
+        this.x += this.dx;
         this.y += this.dy;
         this.draw();
     };
